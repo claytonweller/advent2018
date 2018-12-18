@@ -1,4 +1,4 @@
-let useFile = require("./useFile");
+let useFile = require("../useFile");
 
 const importData = data => {
   let string = data.toString();
@@ -19,4 +19,4 @@ const importData = data => {
   }
 };
 
-let data = useFile(importData, "./freqData.txt");
+useFile(importData, "./freqData.txt");
