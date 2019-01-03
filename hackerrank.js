@@ -1,24 +1,48 @@
-function arrayManipulation(n, queries) {
-  let arr = [];
-  for (let i = 0; i < n; i++) {
-    arr.push(0);
-  }
-  let max = 0;
-
-  queries.forEach(e => {
-    for (let i = e[0] - 1; i < e[1]; i++) {
-      arr[i] += e[2];
-      if (arr[i] > max) {
-        max = arr[i];
-      }
+function checkMagazine(magazine, note) {
+  for (let i = 0; i < note.length; i++) {
+    if (!magazine.includes(note[i])) {
+      console.log("No");
+      return;
     }
-  });
-
-  return max;
+    magazine[magazine.indexOf(note[i])] = null;
+  }
+  console.log("Yes");
 }
 
-let input = [[2, 6, 8], [3, 5, 7], [1, 8, 1], [5, 9, 15]];
-console.log(arrayManipulation(10, input));
+let bad = [
+  "two times three is not four".split(" "),
+  "two times two is four".split(" ")
+];
+let good = [
+  "give me one grand today night".split(" "),
+  "give one grand today".split(" ")
+];
+
+checkMagazine(bad[0], bad[1]);
+console.log("----");
+checkMagazine(good[0], good[0]);
+
+// function arrayManipulation(n, queries) {
+//   let arr = [];
+//   for (let i = 0; i < n; i++) {
+//     arr.push(0);
+//   }
+//   let max = 0;
+
+//   queries.forEach(e => {
+//     for (let i = e[0] - 1; i < e[1]; i++) {
+//       arr[i] += e[2];
+//       if (arr[i] > max) {
+//         max = arr[i];
+//       }
+//     }
+//   });
+
+//   return max;
+// }
+
+// let input = [[2, 6, 8], [3, 5, 7], [1, 8, 1], [5, 9, 15]];
+// console.log(arrayManipulation(10, input));
 
 // function minimumSwaps(q) {
 //   let moves = 0;
