@@ -1,26 +1,81 @@
-function checkMagazine(magazine, note) {
-  for (let i = 0; i < note.length; i++) {
-    if (!magazine.includes(note[i])) {
-      console.log("No");
-      return;
+function isValid(s) {
+  let alpha = "qwertyuiopasdfghjklzxcvbnm".split("");
+  let high = 0;
+  let low = 0;
+  for (let i = 0; i < alpha.length; i++) {
+    const reg = new RegExp(alpha[i], "g");
+    let count = (s.match(reg) || []).length;
+    if (high !== 0 && count === high && low !== 1) {
+      return "NO";
     }
-    magazine[magazine.indexOf(note[i])] = null;
+    if ((count !== 0 && count < low) || low === 0) {
+      low = count;
+    }
+    if (count > high) {
+      high = count;
+    }
+    if (high - low > 1) {
+      return "NO";
+    }
   }
-  console.log("Yes");
+
+  return "YES";
 }
 
-let bad = [
-  "two times three is not four".split(" "),
-  "two times two is four".split(" ")
-];
-let good = [
-  "give me one grand today night".split(" "),
-  "give one grand today".split(" ")
-];
+console.log("base", isValid("aabbc"));
 
-checkMagazine(bad[0], bad[1]);
-console.log("----");
-checkMagazine(good[0], good[0]);
+// function makeAnagram(a, b) {
+//   let alpha = "qwertyuiopasdfghjklzxcvbnm".split("");
+//   let diff = 0;
+//   alpha.forEach(letter => {
+//     let reg = new RegExp(letter, "g");
+//     diff += Math.abs((a.match(reg) || []).length - (b.match(reg) || []).length);
+//   });
+//   return diff;
+// }
+
+// console.log(makeAnagram("showman", "woman"), 2);
+// console.log(
+//   makeAnagram("fcrxzwscanmligyxyvym", "jxwtrhvujlmrpdoqbisbwhmgpmeoke"),
+//   30
+// );
+
+// function twoStrings(s1, s2) {
+//   let alph = "qwertyuiopasdfghjklzxcvbnm".split("");
+//   for (let i = 0; i < alph.length; i++) {
+//     if (s1.includes(alph[i]) && s2.includes(alph[i])) {
+//       return "YES";
+//     }
+//   }
+//   return "NO";
+// }
+
+// console.log(twoStrings("are", "a"));
+// console.log(twoStrings("be", "cat"));
+
+// function checkMagazine(magazine, note) {
+//   for (let i = 0; i < note.length; i++) {
+//     if (!magazine.includes(note[i])) {
+//       console.log("No");
+//       return;
+//     }
+//     magazine[magazine.indexOf(note[i])] = null;
+//   }
+//   console.log("Yes");
+// }
+
+// let bad = [
+//   "two times three is not four".split(" "),
+//   "two times two is four".split(" ")
+// ];
+// let good = [
+//   "give me one grand today night".split(" "),
+//   "give one grand today".split(" ")
+// ];
+
+// checkMagazine(bad[0], bad[1]);
+// console.log("----");
+// checkMagazine(good[0], good[0]);
 
 // function arrayManipulation(n, queries) {
 //   let arr = [];
