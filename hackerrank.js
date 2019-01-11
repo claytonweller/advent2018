@@ -2,14 +2,14 @@ const useFile = require("./useFile");
 
 const importData = data => {
   let string = data.toString();
-  let arr = string.split(" ");
-  console.log(activityNotifications(arr, 9999));
+  let arr = string.split(" ").map(s => parseInt(s));
+  console.log(activityNotifications(arr, 10000));
 };
 
 function calculateMedian(medArr, d) {
   let newArr = medArr.slice().sort((a, b) => a - b);
   if (d % 2 === 0) {
-    return (newArr[d / 2] + newArr[d / 2 + 1]) / 2;
+    return (newArr[d / 2 - 1] + newArr[d / 2]) / 2;
   } else {
     return newArr[Math.floor(d / 2)];
   }
@@ -23,13 +23,10 @@ function activityNotifications(expenditure, d) {
     medArr.push(expenditure[i]);
   }
   median = calculateMedian(medArr, d);
-
   for (let i = d; i < expenditure.length; i++) {
-    if (expenditure[i] >= median * 1.9 && expenditure[i - 1] !== median) {
+    if (expenditure[i] >= median * 1.93) {
       median = calculateMedian(medArr, d);
-
       console.log(alerts, median, i);
-      greaterCount = 0;
     }
     if (median * 2 <= expenditure[i]) {
       alerts++;
@@ -42,7 +39,7 @@ function activityNotifications(expenditure, d) {
 
 // console.log(activityNotifications([10, 20, 30, 40, 50], 3));
 // console.log(" ");
-// console.log(activityNotifications([2, 3, 4, 2, 3, 6, 8, 4, 5], 5));
+console.log(activityNotifications([2, 3, 4, 2, 3, 7, 8, 4, 5], 4));
 
 useFile(importData, "./hackerrankData.txt");
 
