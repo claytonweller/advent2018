@@ -1,28 +1,95 @@
-function isValid(s) {
-  let alpha = "qwertyuiopasdfghjklzxcvbnm".split("");
-  let high = 0;
-  let low = 0;
-  for (let i = 0; i < alpha.length; i++) {
-    const reg = new RegExp(alpha[i], "g");
-    let count = (s.match(reg) || []).length;
-    if (high !== 0 && count === high && low !== 1) {
-      return "NO";
-    }
-    if ((count !== 0 && count < low) || low === 0) {
-      low = count;
-    }
-    if (count > high) {
-      high = count;
-    }
-    if (high - low > 1) {
-      return "NO";
-    }
-  }
+const useFile = require("./useFile");
 
-  return "YES";
+const importData = data => {
+  let string = data.toString();
+  let arr = string.split(" ");
+  console.log(activityNotifications(arr, 9999));
+};
+
+function calculateMedian(medArr, d) {
+  let newArr = medArr.slice().sort((a, b) => a - b);
+  if (d % 2 === 0) {
+    return (newArr[d / 2] + newArr[d / 2 + 1]) / 2;
+  } else {
+    return newArr[Math.floor(d / 2)];
+  }
 }
 
-console.log("base", isValid("aabbc"));
+function activityNotifications(expenditure, d) {
+  let alerts = 0;
+  let medArr = [];
+  let median;
+  for (let i = 0; i < d; i++) {
+    medArr.push(expenditure[i]);
+  }
+  median = calculateMedian(medArr, d);
+
+  for (let i = d; i < expenditure.length; i++) {
+    if (expenditure[i] >= median * 1.9 && expenditure[i - 1] !== median) {
+      median = calculateMedian(medArr, d);
+
+      console.log(alerts, median, i);
+      greaterCount = 0;
+    }
+    if (median * 2 <= expenditure[i]) {
+      alerts++;
+    }
+    medArr.shift();
+    medArr.push(expenditure[i]);
+  }
+  return alerts;
+}
+
+// console.log(activityNotifications([10, 20, 30, 40, 50], 3));
+// console.log(" ");
+// console.log(activityNotifications([2, 3, 4, 2, 3, 6, 8, 4, 5], 5));
+
+useFile(importData, "./hackerrankData.txt");
+
+// function countSwaps(a) {
+//   let swaps = 0;
+//   for (let i = 0; i < a.length; i++) {
+//     for (let j = 0; j < a.length - 1; j++) {
+//       if (a[j] > a[j + 1]) {
+//         swaps++;
+//         let hold = a[j];
+//         a[j] = a[j + 1];
+//         a[j + 1] = hold;
+//       }
+//     }
+//   }
+//   console.log(`Array is sorted in ${swaps} swaps.`);
+//   console.log("First Element: " + a[0]);
+//   console.log("Last Element: " + a[a.length - 1]);
+// }
+
+// countSwaps([3, 2, 1, 5, 6, 4]);
+
+// function isValid(s) {
+//   let alpha = "qwertyuiopasdfghjklzxcvbnm".split("");
+//   let high = 0;
+//   let low = 0;
+//   for (let i = 0; i < alpha.length; i++) {
+//     const reg = new RegExp(alpha[i], "g");
+//     let count = (s.match(reg) || []).length;
+//     if (high !== 0 && count === high && low !== 1) {
+//       return "NO";
+//     }
+//     if ((count !== 0 && count < low) || low === 0) {
+//       low = count;
+//     }
+//     if (count > high) {
+//       high = count;
+//     }
+//     if (high - low > 1) {
+//       return "NO";
+//     }
+//   }
+
+//   return "YES";
+// }
+
+// console.log("base", isValid("aabbc"));
 
 // function makeAnagram(a, b) {
 //   let alpha = "qwertyuiopasdfghjklzxcvbnm".split("");
