@@ -1,47 +1,158 @@
-const useFile = require("./useFile");
+// const useFile = require("./useFile");
 
-const importData = data => {
-  let string = data.toString();
-  let arr = string.split(" ").map(s => parseInt(s));
-  console.log(activityNotifications(arr, 10000));
-};
+// const importData = data => {
+//   let string = data.toString();
+//   let arr = string.split(" ").map(s => parseInt(s));
+//   console.log(activityNotifications(arr, 10000));
+// };
 
-function calculateMedian(medArr, d) {
-  let newArr = medArr.slice().sort((a, b) => a - b);
-  if (d % 2 === 0) {
-    return (newArr[d / 2 - 1] + newArr[d / 2]) / 2;
-  } else {
-    return newArr[Math.floor(d / 2)];
+function mergeSort(arr) {
+  if (arr.length === 1) {
+    // return once we hit an array with a single item
+    return arr;
   }
+
+  const middle = Math.floor(arr.length / 2); // get the middle item of the array rounded down
+  const left = arr.slice(0, middle); // items on the left side
+  const right = arr.slice(middle); // items on the right side
+
+  return merge(mergeSort(left), mergeSort(right));
 }
 
-function activityNotifications(expenditure, d) {
-  let alerts = 0;
-  let medArr = [];
-  let median;
-  for (let i = 0; i < d; i++) {
-    medArr.push(expenditure[i]);
-  }
-  median = calculateMedian(medArr, d);
-  for (let i = d; i < expenditure.length; i++) {
-    if (expenditure[i] >= median * 1.93) {
-      median = calculateMedian(medArr, d);
-      console.log(alerts, median, i);
+// compare the arrays item by item and return the concatenated result
+function merge(left, right) {
+  let result = [];
+  let indexLeft = 0;
+  let indexRight = 0;
+
+  while (indexLeft < left.length && indexRight < right.length) {
+    if (left[indexLeft] <= right[indexRight]) {
+      result.push(left[indexLeft]);
+      indexLeft++;
+    } else {
+      result.push(right[indexRight]);
+
+      count += left.length - indexLeft;
+      indexRight++;
     }
-    if (median * 2 <= expenditure[i]) {
-      alerts++;
-    }
-    medArr.shift();
-    medArr.push(expenditure[i]);
   }
-  return alerts;
+
+  // return result.concat(left.slice(indexLeft)).concat(right.slice(indexRight));
+  return [...result, ...left.slice(indexLeft), ...right.slice(indexRight)];
 }
 
-// console.log(activityNotifications([10, 20, 30, 40, 50], 3));
-// console.log(" ");
-console.log(activityNotifications([2, 3, 4, 2, 3, 7, 8, 4, 5], 4));
+function countInversions(arr) {
+  let count = 0;
+  function mergeSort(arr) {
+    if (arr.length === 1) {
+      // return once we hit an array with a single item
+      return arr;
+    }
 
-useFile(importData, "./hackerrankData.txt");
+    const middle = Math.floor(arr.length / 2); // get the middle item of the array rounded down
+    const left = arr.slice(0, middle); // items on the left side
+    const right = arr.slice(middle); // items on the right side
+
+    return merge(mergeSort(left), mergeSort(right));
+  }
+
+  // compare the arrays item by item and return the concatenated result
+  function merge(left, right) {
+    let result = [];
+    let indexLeft = 0;
+    let indexRight = 0;
+
+    while (indexLeft < left.length && indexRight < right.length) {
+      if (left[indexLeft] <= right[indexRight]) {
+        result.push(left[indexLeft]);
+        indexLeft++;
+      } else {
+        result.push(right[indexRight]);
+
+        count += left.length - indexLeft;
+        indexRight++;
+      }
+    }
+
+    // return result.concat(left.slice(indexLeft)).concat(right.slice(indexRight));
+    return [...result, ...left.slice(indexLeft), ...right.slice(indexRight)];
+  }
+  mergeSort(arr);
+  return count;
+}
+
+console.log(countInversions([7, 5, 3, 1]), 6);
+console.log(countInversions([2, 1, 3, 1, 2]), 4);
+
+// 7 5 4 3 1
+// 7 5 4   3 1
+// 7 5   4   3 1
+
+// 5 7            1
+//           1 3  1
+
+// 5 7   4        2  (LENGTH OF ARRAY!)
+
+// 4 5 7    1 3   3 + 3 = 6
+
+// 1 3 4 5 7  10
+
+// function calculateMedian(medArr, d) {
+//   let newArr = medArr.slice().sort((a, b) => a - b);
+//   let median, top;
+//   if (d % 2 === 0) {
+//     median = (newArr[d / 2 - 1] + newArr[d / 2]) / 2;
+//   } else {
+//     median = newArr[Math.floor(d / 2)];
+//   }
+//   top = newArr.lastIndexOf(median) - Math.floor(d / 2);
+//   if (!Number.isInteger(median)) {
+//     top = 1;
+//   }
+
+//   return { median, top };
+// }
+
+// function activityNotifications(expenditure, d) {
+//   let alerts = 0;
+//   let medArr = [];
+//   let medObj;
+//   for (let i = 0; i < d; i++) {
+//     medArr.push(expenditure[i]);
+//   }
+//   medObj = calculateMedian(medArr, d);
+//   let stopGate = 0;
+//   for (let i = d; i < expenditure.length; i++) {
+//     stopGate++;
+//     if (expenditure[i - 1] > medObj.median) {
+//       medObj.top--;
+//     } else if (expenditure[i - 1] < medObj.median) {
+//       medObj.top++;
+//     }
+
+//     if (
+//       stopGate > 300 ||
+//       medObj.top < 1 ||
+//       expenditure[i] >= medObj.median * 1.975
+//     ) {
+//       stopGate = 0;
+//       medObj = calculateMedian(medArr, d);
+//       console.log(alerts, medObj.median, i);
+//     }
+//     if (medObj.median * 2 <= expenditure[i]) {
+//       alerts++;
+//     }
+//     medArr.shift();
+//     medArr.push(expenditure[i]);
+//   }
+//   return alerts;
+// }
+
+// // console.log(activityNotifications([10, 20, 30, 40, 50], 3));
+// // console.log(" ");
+// // console.log(activityNotifications([2, 3, 4, 2, 3, 7, 8, 4, 5], 4));
+
+// useFile(importData, "./hackerrankData.txt");
 
 // function countSwaps(a) {
 //   let swaps = 0;
